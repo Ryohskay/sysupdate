@@ -7,12 +7,20 @@
   - This may produce some disparities between messages / descriptions, but the author is not liable for it. (See [LICENSE](LICENSE))
 
 # TODO:
-- Work with following package managers (and representative Distros I (might) refer to):
+- Work with following package managers (and representative OSs I (might) refer to):
   - dnf (Fedora, AlmaLinux, Mageia)
-  - apt-rpm (PCLinuxOS)
+  - apt-rpm (PCLinuxOS) [^1]
   - fwupd (Ubuntu, Fedora)
   - pkg (FreeBSD)
   - pkg_* (OpenBSD)
+
+- Less likely to use, but I'm interested in:
+  - GNU guix (GNU guix system)
+  - nixpkg (NixOS)
+
+[^1]: As of 25 Nov 2022, the upstream (apt-rpm.org) disappeared. It is probably due to the address no longer maintained.
+It is totally up to each distribution what to do with this package manager... so I would not do any apt-rpm distro 
+other than PCLInuxOS.
 
 # Upstream README
 ## :fountain_pen:Contributors
