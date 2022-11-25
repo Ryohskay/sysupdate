@@ -5,9 +5,9 @@ function usage() {
 
 Usage: $(basename $0) [arg1] [arg2]...
 
-    -a          APTのみ実行
-    -y		'y'の入力をスキップします
-    -h          ヘルプを表示します
+    -a          Execute apt only
+    -y		Confirm all installation beforehand and skip any prompt
+    -h          Display this 'help' dialogue
 
 EOM
 }
@@ -33,21 +33,21 @@ while (($#>0)); do
 done
 
 function PACUP_APT() {
-  echo -e "\nsudo apt-get update を実行します"
+  echo -e "\nExecuting: sudo apt-get update"
   sudo apt-get update
-  echo -e "\nsudo apt-get full-upgrade$PACUP_YES を実行します"
+  echo -e "\nExecuting: sudo apt-get full-upgrade$PACUP_YES"
   sudo apt-get full-upgrade$PACUP_YES
-  echo -e "\nsudo apt-get autoremove$PACUP_YES を実行します"
+  echo -e "\nExecuting: sudo apt-get autoremove$PACUP_YES"
   sudo apt-get autoremove$PACUP_YES
 }
 
 function PACUP_SYS() {
   if [ $(command -v snap) ]; then
-    echo -e "\nsudo snap refresh を実行します"
+    echo -e "\nExecuting: sudo snap refresh"
     sudo snap refresh
   fi
   if [ $(command -v flatpak) ]; then
-    echo -e "\nsudo flatpak update$PACUP_YES を実行します"
+    echo -e "\nExecuting: sudo flatpak update$PACUP_YES"
     sudo flatpak update$PACUP_YES
   fi
 }
@@ -55,10 +55,10 @@ function PACUP_SYS() {
 if [ "$PACUP_MOD" == "apt" ]; then
   sudo echo -n
   if [ $? != 0 ]; then
-    echo -e "\nAPTコマンドの実行はRoot(管理者)権限を要求します｡\nもう一度お試しください｡\n"
+    echo -e "\nAPT package manager requires administrator (usually ROOT) privilege.\nPlease try again.\n"
     sudo echo -n
     if [ $? != 0 ]; then
-      echo -e "\n権限の昇格に失敗したため､ 実行を終了しました｡"
+      echo -e "\nAuthentication failure. Quitting..."
       exit 1
     fi
   fi
@@ -68,19 +68,19 @@ fi
 
 sudo echo -n
 if [ $? != 0 ]; then
-  echo -e "\nRoot(管理者)権限を要求しています｡\nもう一度お試しください｡\n"
+  echo -e "\nThis requires administrator (usually ROOT) privileges.\nPlease try again.\n"
   sudo echo -n
   if [ $? != 0 ]; then
-    echo -e "\n権限の昇格に失敗したため､ 実行を終了しました｡"
+    echo -e "\nAuthentication failure. Quitting ..."
     exit 1
   fi
 fi
 
 PACUP_APT
 if [ $(command -v flatpak) ]; then
-  echo -e "\nflatpak update$PACUP_YES を実行します"
+  echo -e "\nExecuting: flatpak update$PACUP_YES"
   flatpak update$PACUP_YES
 fi
 PACUP_SYS
-echo -e "\n完了しました！"
+echo -e "\nCompleted update"
 exit 0
