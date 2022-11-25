@@ -1,9 +1,20 @@
 # pacup
 ***Simplify package updates***
 - Forked by Ryohskay to test on other platforms.
+- This project was originally built for a Japanese Linux Distro **open.Yellow.os**.
+- My aim is to tune it for other operating systems I use.
 - Please note that messages are modified from original Japanese to English.
   - This may produce some disparities between messages / descriptions, but the author is not liable for it. (See [LICENSE](LICENSE))
 
+# TODO:
+- Work with following package managers (and representative Distros I (might) refer to):
+  - dnf (Fedora, AlmaLinux, Mageia)
+  - apt-rpm (PCLinuxOS)
+  - fwupd (Ubuntu, Fedora)
+  - pkg (FreeBSD)
+  - pkg_* (OpenBSD)
+
+# Upstream README
 ## :fountain_pen:Contributors
 **PenN**:
 <a href="https://github.com/PengiNN"><img src="https://avatars.githubusercontent.com/u/103301288?v=4" alt="PenN Profile Image" title="PenN" width=150></a>
