@@ -6,6 +6,7 @@ function usage() {
 Usage: $(basename $0) [arg1] [arg2]...
 
     -a      Select apt as the native package manager
+    -d      Select dnf as the native package manager
     -n      Execute the native package manager (apt, dnf, etc) only
     -y		Confirm all installation beforehand and skip any prompt
     -h      Display this 'help' dialogue
@@ -13,6 +14,7 @@ Usage: $(basename $0) [arg1] [arg2]...
 EOM
 }
 
+# catch CLI options
 while (($#>0)); do
   case $1 in
     a|-a|--apt)
@@ -59,31 +61,48 @@ function PACUP_SYS() {
   fi
 }
 
-if [ "$SYS_PKG" == "apt" ]; then
-  sudo echo -n
-  if [ $? != 0 ]; then
-    echo -e "\nAPT package manager requires administrator (usually ROOT) privilege.\nPlease try again.\n"
-    sudo echo -n
-    if [ $? != 0 ]; then
-      echo -e "\nAuthentication failure. Quitting..."
-      exit 1
-    fi
-  fi
-  PACUP_APT
-  exit 0
+# initialise SYS_PKG
+if [ $(command -v dnf) ]; then
+    echo -e "\nDetected dnf package manager"
+    SYS_PKG="dnf"
+elif [ $(command -v yum) ]; then
+    echo -e "\n Detected yum package manager"
+    SYS_PKG="yum"
+else
+    SYS_PKG="apt"
 fi
 
-sudo echo -n
+# ROOT privilege check
+# detect doas
+if [ $(command -v doas) ]; then
+    echo "Detected doas"
+    SUBEXEC="doas"
+    doas echo -n
+else
+    SUBEXEC="sudo"
+    sudo echo -n
+fi
+
+# sudo/doas escalation
 if [ $? != 0 ]; then
-  echo -e "\nThis requires administrator (usually ROOT) privileges.\nPlease try again.\n"
-  sudo echo -n
+  echo -e "\nThis program requires administrator (usually ROOT) privileges.\nPlease try again.\n"
+  $SUBEXEC echo -n  # Run sudo/doas again
   if [ $? != 0 ]; then
     echo -e "\nAuthentication failure. Quitting ..."
     exit 1
   fi
 fi
 
-PACUP_APT
+# run native package manager updates
+if [ "$SYS_PKG" == "apt" ]; then
+  PACUP_APT
+fi
+
+# exit if the user chose the native only option
+if [ "$PACUP_MOD" == "native"]; then
+    exit 0
+fi
+
 PACUP_SYS
 echo -e "\nCompleted update"
 exit 0
