@@ -20,6 +20,7 @@ while (($#>0)); do
       ;;
     n|-n|--native)
       PACUP_MOD="native"
+      ;;
     y|-y|--yes)
       PACUP_YES=" -y"
       ;;
