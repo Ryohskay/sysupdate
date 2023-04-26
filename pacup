@@ -102,9 +102,11 @@ fi
 
 # exit if the user chose the native only option
 if [ "$PACUP_MOD" == "native"]; then
+    echo -e "\nCompleted update"
     exit 0
 fi
 
+# update other system package management tools
 PACUP_SYS
 echo -e "\nCompleted update"
 exit 0
