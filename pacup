@@ -84,10 +84,6 @@ if [ $? != 0 ]; then
 fi
 
 PACUP_APT
-if [ $(command -v flatpak) ]; then
-  echo -e "\nExecuting: flatpak update$PACUP_YES"
-  flatpak update$PACUP_YES
-fi
 PACUP_SYS
 echo -e "\nCompleted update"
 exit 0
