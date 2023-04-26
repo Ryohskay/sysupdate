@@ -40,17 +40,17 @@ done
 
 function PACUP_APT() {
   echo -e "\nExecuting: sudo apt-get update"
-  sudo apt-get update
+  $SUBEXEC apt-get update
   echo -e "\nExecuting: sudo apt-get full-upgrade$PACUP_YES"
-  sudo apt-get full-upgrade$PACUP_YES
+  $SUBEXEC apt-get full-upgrade$PACUP_YES
   echo -e "\nExecuting: sudo apt-get autoremove$PACUP_YES --fix broken"
-  sudo apt-get autoremove$PACUP_YES --fix-broken
+  $SUBEXEC apt-get autoremove$PACUP_YES --fix-broken
 }
 
 function PACUP_SYS() {
   if [ $(command -v snap) ]; then
     echo -e "\nExecuting: sudo snap refresh"
-    sudo snap refresh
+    $SUBEXEC snap refresh
   fi
   if [ $(command -v brew) ]; then
       brew update
@@ -73,13 +73,13 @@ else
 fi
 
 # ROOT privilege check
-# detect doas
+# initialise SUBEXEC and detect doas
+SUBEXEC="sudo"
 if [ $(command -v doas) ]; then
     echo "Detected doas"
     SUBEXEC="doas"
     doas echo -n
 else
-    SUBEXEC="sudo"
     sudo echo -n
 fi
 
