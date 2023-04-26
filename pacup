@@ -50,9 +50,12 @@ function PACUP_SYS() {
     echo -e "\nExecuting: sudo snap refresh"
     sudo snap refresh
   fi
+  if [ $(command -v brew) ]; then
+      brew update
+  fi
   if [ $(command -v flatpak) ]; then
     echo -e "\nExecuting: sudo flatpak update$PACUP_YES"
-    sudo flatpak update$PACUP_YES
+    flatpak update$PACUP_YES
   fi
 }
 
