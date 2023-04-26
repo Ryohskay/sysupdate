@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# default variables
+VERSION="0.0.0"
 
 function usage() {
   cat <<EOM
@@ -78,6 +80,9 @@ function PACUP_SYS() {
     flatpak update$PACUP_YES
   fi
 }
+
+
+echo -e "\npacup v$VERSION"
 
 # initialise SYS_PKG
 if [ $(command -v dnf) ]; then
