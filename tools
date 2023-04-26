@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+# This is a script to let users update user-installed commands.
+# sdkman
+
+# rustup + cargo
+
+# pip?
+# pyenv
+
+# rbenv
+# ruby-build
+
+# nvm
+
+# yarn
+if [[ test -f $HOME/package.json ]]; then
+    CURR_DIR = `pwd`
+    cd $HOME
+    yarn upgrade
+    cd $CURR_DIR
+fi
