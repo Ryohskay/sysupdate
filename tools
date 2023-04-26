@@ -1,7 +1,15 @@
 #!/usr/bin/env bash
 
 # This is a script to let users update user-installed commands.
+# oh-my-zsh
+if [ $(command -v omz) ]; then
+    omz update
+fi
+
 # sdkman
+if [ $(command -v sdk) ]; then
+    sdk update
+fi
 
 # rustup
 if [ $(command -v rustup) ]; then
