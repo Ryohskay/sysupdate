@@ -82,7 +82,7 @@ function PACUP_SYS() {
 }
 
 
-echo -e "\npacup v$VERSION"
+echo -e "pacup v$VERSION"
 
 # initialise SYS_PKG
 if [ $(command -v dnf) ]; then
