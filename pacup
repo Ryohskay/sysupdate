@@ -53,10 +53,12 @@ function PACUP_SYS() {
     $SUBEXEC snap refresh
   fi
   if [ $(command -v brew) ]; then
-      brew update
+    echo -e "\n Detected homebrew."
+    echo -e "\nExecuting: brew update$PACUP_YES"
+    brew update
   fi
   if [ $(command -v flatpak) ]; then
-    echo -e "\nExecuting: sudo flatpak update$PACUP_YES"
+    echo -e "\nExecuting: flatpak update$PACUP_YES"
     flatpak update$PACUP_YES
   fi
 }
