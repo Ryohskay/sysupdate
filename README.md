@@ -11,7 +11,7 @@
   - apt-rpm (PCLinuxOS) [^1]
   - fwupd (Ubuntu, Fedora)
   - pkg (FreeBSD)
-  - pkg_* (OpenBSD)
+  - pkg_\* (OpenBSD)
 
 - Less likely to use, but I'm interested in:
   - GNU guix (GNU guix system)
@@ -32,4 +32,4 @@ other than PCLInuxOS.
 
 **Syuugo**:
 <a href="https://github.com/s1204IT"><img src="https://avatars.githubusercontent.com/u/52069677?v=4" alt="Syuugo Profile Image" title="Syuugo" width=150></a>
-- Mainly, adding and modifying features
+- Mainly adding and modifying features
