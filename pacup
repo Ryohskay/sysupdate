@@ -5,9 +5,10 @@ function usage() {
 
 Usage: $(basename $0) [arg1] [arg2]...
 
-    -a          Execute apt only
+    -a      Select apt as the native package manager
+    -n      Execute the native package manager (apt, dnf, etc) only
     -y		Confirm all installation beforehand and skip any prompt
-    -h          Display this 'help' dialogue
+    -h      Display this 'help' dialogue
 
 EOM
 }
@@ -15,8 +16,10 @@ EOM
 while (($#>0)); do
   case $1 in
     a|-a|--apt)
-      PACUP_MOD="apt"
+      SYS_PKG="apt"
       ;;
+    n|-n|--native)
+      PACUP_MOD="native"
     y|-y|--yes)
       PACUP_YES=" -y"
       ;;
@@ -52,7 +55,7 @@ function PACUP_SYS() {
   fi
 }
 
-if [ "$PACUP_MOD" == "apt" ]; then
+if [ "$SYS_PKG" == "apt" ]; then
   sudo echo -n
   if [ $? != 0 ]; then
     echo -e "\nAPT package manager requires administrator (usually ROOT) privilege.\nPlease try again.\n"
