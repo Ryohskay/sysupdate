@@ -8,7 +8,6 @@
 
 # TODO:
 - Work with following package managers (and representative OSs I (might) refer to):
-  - dnf (Fedora, AlmaLinux, Mageia)
   - apt-rpm (PCLinuxOS) [^1]
   - fwupd (Ubuntu, Fedora)
   - pkg (FreeBSD)
@@ -22,8 +21,7 @@
 It is totally up to each distribution what to do with this package manager... so I would not do any apt-rpm distro 
 other than PCLInuxOS.
 
-# Upstream README
-## :fountain_pen:Contributors
+## :fountain_pen: Upstream Contributors
 **PenN**:
 <a href="https://github.com/PengiNN"><img src="https://avatars.githubusercontent.com/u/103301288?v=4" alt="PenN Profile Image" title="PenN" width=150></a>
 - Made a template for [**pacup**](https://github.com/PengiNN/pacup "PengiNN/pacup")
@@ -35,6 +33,3 @@ other than PCLInuxOS.
 **Syuugo**:
 <a href="https://github.com/s1204IT"><img src="https://avatars.githubusercontent.com/u/52069677?v=4" alt="Syuugo Profile Image" title="Syuugo" width=150></a>
 - Mainly, adding and modifying features
-
-## :warning:Attention
-This script has been edited for embedding in **open.Yellow.os**
