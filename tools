@@ -3,7 +3,10 @@
 # This is a script to let users update user-installed commands.
 # sdkman
 
-# rustup + cargo
+# rustup
+if [ $(command -v rustup) ]; then
+    rustup update
+fi
 
 # pip?
 # pyenv
