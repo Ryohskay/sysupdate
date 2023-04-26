@@ -17,7 +17,7 @@ fi
 # nvm
 
 # yarn
-if [[ test -f $HOME/package.json ]]; then
+if [[ test -d $HOME/.yarn ]]; then
     CURR_DIR = `pwd`
     cd $HOME
     yarn upgrade
