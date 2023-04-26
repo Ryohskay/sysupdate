@@ -39,12 +39,28 @@ while (($#>0)); do
 done
 
 function PACUP_APT() {
-  echo -e "\nExecuting: sudo apt-get update"
+  echo -e "\nExecuting: $SUBEXEC apt-get update"
   $SUBEXEC apt-get update
-  echo -e "\nExecuting: sudo apt-get full-upgrade$PACUP_YES"
+  echo -e "\nExecuting: $SUBEXEC apt-get full-upgrade$PACUP_YES"
   $SUBEXEC apt-get full-upgrade$PACUP_YES
-  echo -e "\nExecuting: sudo apt-get autoremove$PACUP_YES --fix broken"
+  echo -e "\nExecuting: $SUBEXEC apt-get autoremove$PACUP_YES --fix broken"
   $SUBEXEC apt-get autoremove$PACUP_YES --fix-broken
+}
+
+function PACUP_DNF() {
+    PACUP_RHEL
+}
+
+function PACUP_YUM() {
+    PACUP_RHEL
+}
+
+function PACUP_RHEL() {
+    # Common update process for DNF and YUM
+    echo -e "\nExecuting: $SUBEXEC $SYS_PKG upgrade"
+    $SUBEXEC $SYS_PKG upgrade
+    echo -e "\nExecuting: $SUBEXEC $SYS_PKG autoremove"
+    $SUBEXEC $SYS_PKG autoremove
 }
 
 function PACUP_SYS() {
@@ -98,6 +114,10 @@ fi
 # run native package manager updates
 if [ "$SYS_PKG" == "apt" ]; then
   PACUP_APT
+elif [ "$SYS_PKG" == "dnf" ]; then
+  PACUP_DNF
+elif [ "$SYS_PKG" == "yum" ]; then
+  PACUP_YUM
 fi
 
 # exit if the user chose the native only option
