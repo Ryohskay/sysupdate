@@ -2,7 +2,7 @@
 
 # This is a script to let users update user-installed commands.
 # remember current directory
-CURR_DIR= `pwd`
+CURR_DIR=`pwd`
 
 # oh-my-zsh
 if [ $(command -v omz) ]; then
