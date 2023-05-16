@@ -11,6 +11,7 @@ fi
 
 # rustup
 if [ $(command -v rustup) ]; then
+    "updating Rust toolchain"
     rustup update
 fi
 
@@ -18,6 +19,7 @@ fi
 # pyenv
 if $(test -d $HOME/.pyenv); then
     cd $HOME/.pyenv
+    "updating pyenv git tree under `pwd`"
     git pull --rebase
     cd $CURR_DIR
 fi
@@ -25,9 +27,11 @@ fi
 # rbenv
 if $(test -d $HOME/.rbenv); then
     cd $HOME/.rbenv
+    "updating rbenv git tree under `pwd`"
     git pull --rebase
     # ruby-build
     if [ $(test -d $(rbenv root)/plugins/ruby-build) ]; then
+        "updating ruby-build git tree under `pwd`"
         git -C "$(rbenv root)"/plugins/ruby-build pull
     fi
 fi
@@ -37,6 +41,7 @@ fi
 # yarn
 if $(test -d $HOME/.yarn); then
     cd $HOME
+    "updating yarn packages"
     yarn upgrade
     cd $CURR_DIR
 fi
