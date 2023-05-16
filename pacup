@@ -59,10 +59,59 @@ function PACUP_YUM() {
 
 function PACUP_RHEL() {
     # Common update process for DNF and YUM
-    echo -e "\nExecuting: $SUBEXEC $SYS_PKG upgrade"
-    $SUBEXEC $SYS_PKG upgrade
-    echo -e "\nExecuting: $SUBEXEC $SYS_PKG autoremove"
-    $SUBEXEC $SYS_PKG autoremove
+    echo -e "\nExecuting: $SUBEXEC $SYS_PKG upgrade$PACUP_YES"
+    $SUBEXEC $SYS_PKG upgrade$PACUP_YES
+    echo -e "\nExecuting: $SUBEXEC $SYS_PKG autoremove$PACUP_YES"
+    $SUBEXEC $SYS_PKG autoremove$PACUP_YES
+}
+
+function PACUP_OBSD() {
+    # updating process for OpenBSD
+    if ! $(test -d ~/.pacup_bsd); then
+        echo -e "\nCreating a utility directory ~/.pacup_bsd"
+        mkdir -p $HOME/.pacup_bsd
+    fi
+    echo -e "\nExecuting: $SUBEXEC syspatch"
+    $SUBEXEC syspatch | tee $HOME/.pacup_bsd/patch.txt
+    echo "syspatch update messages are recorded in $HOME/.pacup_bsd/patch.txt"
+    echo -e "\nExecuting: $SUBEXEC pkg_add -uU"
+    $SUBEXEC pkg_add -uU | tee $HOME/.pacup_bsd/pkgadd.txt
+    echo "update messages are recorded in $HOME/.pacup_bsd/pkgadd.txt"
+}
+
+function PACUP_PKG() {
+    # updating process for FreeBSD's pkg toolchain
+    if ! $(test -d ~/.pacup_bsd); then
+        echo -e "\nCreating a utility directory ~/.pacup_bsd"
+        mkdir -p $HOME/.pacup_bsd
+    fi
+    echo -e "\nExecuting: $SUBEXEC pkg upgrade"
+    $SUBEXEC pkg upgrade | tee $HOME/.pacup_bsd/pkg_upgrade.txt
+    echo "update messages are recorded in $HOME/.pacup_bsd/pkg_upgrade.txt"
+
+    echo -e "\nExecuting: $SUBEXEC pkg autoremove"
+    $SUBEXEC pkg autoremove
+
+    pkg audit | tee $HOME/.pacup_bsd/pkg_audit.txt
+    echo "auditing messages are recorded in $HOME/.pacup_bsd/pkg_audit.txt"
+}
+
+function PACUP_PKGIN() {
+    # a process for NetBSD's pkgin tool
+    if ! $(test -d ~/.pacup_bsd); then
+        echo -e "\nCreating a utility directory ~/.pacup_bsd"
+        mkdir -p $HOME/.pacup_bsd
+    fi
+    echo -e "\nExecuting: $SUBEXEC pkgin$PACUP_YES update"
+    $SUBEXEC pkgin$PACUP_YES update
+    echo -e "\nExecuting: $SUBEXEC pkgin$PACUP_YES upgrade"
+    $SUBEXEC pkgin$PACUP_YES upgrade | tee $HOME/.pacup_bsd/pkg_upgrade.txt
+    echo "update messages are recorded in $HOME/.pacup_bsd/pkg_upgrade.txt"
+
+    echo -e "\nExecuting: $SUBEXEC pkgin$PACUP_YES autoremove"
+    $SUBEXEC pkgin$PACUP_YES autoremove
+    echo -e "\nExecuting: $SUBEXEC pkgin$PACUP_YES clean"
+    $SUBEXEC pkgin$PACUP_YES clean
 }
 
 function PACUP_SYS() {
@@ -89,8 +138,17 @@ if [ $(command -v dnf) ]; then
     echo -e "\nDetected dnf package manager"
     SYS_PKG="dnf"
 elif [ $(command -v yum) ]; then
-    echo -e "\n Detected yum package manager"
+    echo -e "\nDetected yum package manager"
     SYS_PKG="yum"
+elif [ $(command -v pkgin) ]; then
+    echo -e "\nDetected pkgin package manager"
+    SYS_PKG="pkgin"
+elif [ $(command -v pkg_add) ]; then
+    echo -e "\nDetected BSD pkg_\* tools"
+    SYS_PKG="pkg_add"
+elif [ $(command -v pkg) ]; then
+    echo -e "\nDetected FreeBSD's pkg"
+    SYS_PKG="pkg"
 else
     SYS_PKG="apt"
 fi
@@ -109,9 +167,10 @@ fi
 # sudo/doas escalation
 if [ $? != 0 ]; then
   echo -e "\nThis program requires administrator (usually ROOT) privileges.\nPlease try again.\n"
-  $SUBEXEC echo -n  # Run sudo/doas again
+  $SUBEXEC echo -n  # Run sudo/doas again if first attempt fails
   if [ $? != 0 ]; then
     echo -e "\nAuthentication failure. Quitting ..."
+    # exit the program if the second attempt still failed
     exit 1
   fi
 fi
@@ -123,6 +182,12 @@ elif [ "$SYS_PKG" == "dnf" ]; then
   PACUP_DNF
 elif [ "$SYS_PKG" == "yum" ]; then
   PACUP_YUM
+elif [ "$SYS_PKG" == "pkgin" ]; then
+  PACUP_PKGIN
+elif [ "$SYS_PKG" == "pkg_add" ]; then
+  PACUP_OBSD
+elif [ "$SYS_PKG" == "pkg" ]; then
+  PACUP_PKG
 fi
 
 # exit if the user chose the native only option
