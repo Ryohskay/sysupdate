@@ -4,11 +4,6 @@
 # remember current directory
 CURR_DIR=`pwd`
 
-# oh-my-zsh
-if [ $(command -v omz) ]; then
-    omz update
-fi
-
 # sdkman
 if [ $(command -v sdk) ]; then
     sdk update
@@ -21,14 +16,14 @@ fi
 
 # pip?
 # pyenv
-if [ $(test -d $HOME/.pyenv) ]; then
+if $(test -d $HOME/.pyenv); then
     cd $HOME/.pyenv
     git pull --rebase
     cd CURR_DIR
 fi
 
 # rbenv
-if [ $(test -d $HOME/.rbenv) ]; then
+if $(test -d $HOME/.rbenv); then
     cd $HOME/.rbenv
     git pull --rebase
     # ruby-build
@@ -40,7 +35,7 @@ fi
 # nvm
 
 # yarn
-if [ $(test -d $HOME/.yarn) ]; then
+if $(test -d $HOME/.yarn); then
     cd $HOME
     yarn upgrade
     cd $CURR_DIR
