@@ -19,7 +19,7 @@ fi
 if $(test -d $HOME/.pyenv); then
     cd $HOME/.pyenv
     git pull --rebase
-    cd CURR_DIR
+    cd $CURR_DIR
 fi
 
 # rbenv
