@@ -87,13 +87,26 @@ function PACUP_PKG() {
     fi
     echo -e "\nExecuting: $SUBEXEC pkg upgrade"
     $SUBEXEC pkg upgrade | tee $HOME/.pacup_bsd/pkg_upgrade.txt
-    echo "update messages are recorded in $HOME/.pacup_bsd/pkg_upgrade.txt"
+    echo -e "\nUpdate messages are recorded in $HOME/.pacup_bsd/pkg_upgrade.txt"
 
     echo -e "\nExecuting: $SUBEXEC pkg autoremove"
     $SUBEXEC pkg autoremove
 
     pkg audit | tee $HOME/.pacup_bsd/pkg_audit.txt
-    echo "auditing messages are recorded in $HOME/.pacup_bsd/pkg_audit.txt"
+    echo -e "\nAuditing messages are recorded in $HOME/.pacup_bsd/pkg_audit.txt"
+
+    echo -e "\nExecuting: $SUBEXEC freebsd-update fetch"
+    $SUBEXEC freebsd-update fetch
+
+    echo -e "\nExecuting: $SUBEXEC freebsd-update install"
+    $SUBEXEC freebsd-update install | tee $HOME/.pacup_bsd/freebsd-patches.txt
+    echo -e "\nSecurity patch messages are recorded in $HOME/.pacup_bsd/freebsd-patches.txt"
+
+    uname -r > $HOME/.pacup_bsd/uname
+    freebsd-version -k > $HOME/.pacup_bsd/fbsd_k
+    if [ "$(uname -r)" != "$(freebsd-version -k)" ]; then
+        echo -e "\nFreeBSD's kernel has been updated. Please restart the system to fully apply patches."
+    fi
 }
 
 function PACUP_PKGIN() {
@@ -120,7 +133,7 @@ function PACUP_SYS() {
     $SUBEXEC snap refresh
   fi
   if [ $(command -v brew) ]; then
-    echo -e "\n Detected homebrew."
+    echo -e "\nDetected homebrew."
     echo -e "\nExecuting: brew update$PACUP_YES"
     brew update
   fi
