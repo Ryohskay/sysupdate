@@ -10,15 +10,28 @@
 - Work with following package managers (and representative OSs I (might) refer to):
   - apt-rpm (PCLinuxOS) [^1]
   - fwupd (Ubuntu, Fedora)
-  - pkg (FreeBSD)
-  - pkg_\* (OpenBSD)
 
 - Less likely to use, but I'm interested in:
   - GNU guix (GNU guix system)
   - nixpkg (NixOS)
 
+# package managers handled
+- System package managers
+  - apt
+  - dnf
+  - yum
+  - pkg (FreeBSD, also `freebsd-update`)
+  - pkg_* (OpenBSD, also `syspatch`)
+  - pkgin (NetBSD)
+  - slapt-get
+- Userland package managers
+  - flatpak
+  - snap
+  - homebrew (not verified)
+
+
 [^1]: As of 25 Nov 2022, the upstream (apt-rpm.org) disappeared. It is probably due to the address no longer maintained.
-It is totally up to each distribution what to do with this package manager... so I would not do any apt-rpm distro 
+It is totally up to each distribution what to do with this package manager... so I would not do any apt-rpm distro
 other than PCLInuxOS.
 
 ## :fountain_pen: Upstream Contributors
