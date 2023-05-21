@@ -127,6 +127,22 @@ function PACUP_PKGIN() {
     $SUBEXEC pkgin$PACUP_YES clean
 }
 
+function PACUP_SLACK() {
+    # slapt-get for some Slackware derivatives
+    echo -e "\nUpdating slapt GPG keys "
+    $SUBEXEC slapt-get --add-keys
+
+    echo -e "\nExecuting: $SUBEXEC slapt-get$PACUP_YES --update"
+    $SUBEXEC slapt-get$PACUP_YES --update
+
+    echo -e "\nExecuting: $SUBEXEC slapt-get$PACUP_YES --update"
+    $SUBEXEC slapt-get$PACUP_YES --upgrade
+
+    echo -e "\nExecuting: $SUBEXEC slapt-get$PACUP_YES --autoclean"
+    $SUBEXEC slapt-get$PACUP_YES --autoclean
+    echo -e "\nDone cleaning packages."
+}
+
 function PACUP_SYS() {
   if [ $(command -v snap) ]; then
     echo -e "\nExecuting: sudo snap refresh"
@@ -162,6 +178,9 @@ elif [ $(command -v pkg_add) ]; then
 elif [ $(command -v pkg) ]; then
     echo -e "\nDetected FreeBSD's pkg"
     SYS_PKG="pkg"
+elif [ $(command -v slapt-get) ]; then
+    echo -e "\nDetected Slackware's slapt-get"
+    SYS_PKG="slapt-get"
 else
     SYS_PKG="apt"
 fi
@@ -201,6 +220,8 @@ elif [ "$SYS_PKG" == "pkg_add" ]; then
   PACUP_OBSD
 elif [ "$SYS_PKG" == "pkg" ]; then
   PACUP_PKG
+elif [ "$SYS_PKG" == "slapt-get" ]; then
+  PACUP_SLACK
 fi
 
 # exit if the user chose the native only option
