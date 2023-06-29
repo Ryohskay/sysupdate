@@ -85,6 +85,8 @@ function PACUP_PKG() {
         echo -e "\nCreating a utility directory ~/.pacup_bsd"
         mkdir -p $HOME/.pacup_bsd
     fi
+    echo -e "\nExecuting: $SUBEXEC pkg update"
+    $SUBEXEC pkg update
     echo -e "\nExecuting: $SUBEXEC pkg upgrade"
     $SUBEXEC pkg upgrade | tee $HOME/.pacup_bsd/pkg_upgrade.txt
     echo -e "\nUpdate messages are recorded in $HOME/.pacup_bsd/pkg_upgrade.txt"
