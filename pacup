@@ -146,8 +146,21 @@ function PACUP_SLACK() {
 }
 
 function PACUP_GARUDA() {
-    echo "updating Garuda Linux system"
+    echo -e "\nExecuting: $SUBEXEC garuda-update"
     $SUBEXEC garuda-update
+}
+
+function PACUP_ARCH() {
+    #TODO: MAKE PACUP_YES WORK
+    echo -e "\nExecuting: $SUBEXEC pacman -Syuu"
+    $SUBEXEC pacman -Syuu
+    # Remove orphanated packages
+    echo -e "\nExecuting: $SUBEXEC pacman -Rns \$\(pacman -Qtdq\)"
+    echo -e "\nHINT: if you have a package you do not want to be removed, just reinstall it with 'pacman -S package --asexplicit'"
+    $SUBEXEC pacman -Rns $(pacman -Qtdq)
+    # Clear pacman cache (removes fallback packages)
+    echo -e "\nExecuting: $SUBEXEC paman -Sc"
+    $SUBEXEC pacman -Sc
 }
 
 function PACUP_SYS() {
@@ -192,7 +205,8 @@ elif [ $(command -v garuda-update) ]; then
     echo -e "\nDetected Garuda Linux system"
     SYS_PKG="garuda"
 elif [ $(command -v pacman) ]; then
-    echo -e "\nDetected pacman package manager"
+    echo -e "\nDetected Arch Linux's pacman"
+    SYS_PKG="pacman"
 else
     SYS_PKG="apt"
 fi
@@ -236,6 +250,8 @@ elif [ "$SYS_PKG" == "slapt-get" ]; then
   PACUP_SLACK
 elif [ "$SYS_PKG" == "garuda" ]; then
   PACUP_GARUDA
+elif [ "$SYS_PKG" == "pacman" ]; then
+  PACUP_ARCH
 fi
 
 # exit if the user chose the native only option
