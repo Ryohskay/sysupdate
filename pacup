@@ -146,7 +146,8 @@ function PACUP_SLACK() {
 }
 
 function PACUP_GARUDA() {
-  $SUBEXEC garuda-update
+    echo "updating Garuda Linux system"
+    $SUBEXEC garuda-update
 }
 
 function PACUP_SYS() {
