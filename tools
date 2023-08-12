@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # This is a script to let users update user-installed commands.
-# remember current directory
+# remember current directory from which this script has been called
 CURR_DIR=`pwd`
 
 # sdkman
@@ -26,23 +26,51 @@ if $(test -d $HOME/.pyenv); then
 fi
 
 # rbenv
-if $(test -d $HOME/.rbenv); then
-    cd $HOME/.rbenv
+if [ $(command -v rbenv) ]; then
+    cd $(rbenv root)
     echo "updating rbenv git tree under `pwd`"
     git pull --rebase
     # ruby-build
     if $(test -d $(rbenv root)/plugins/ruby-build); then
-        "updating ruby-build git tree under `pwd`"
+        echo "updating ruby-build git tree under ${PWD}"
         git -C "$(rbenv root)"/plugins/ruby-build pull
     fi
 fi
 
-# nvm
+# Update nvm itself using nvm's installation/update script
+if [ $(command -v nvm) ]; then
+    # get destination URL for the latest release of NVM after redirect
+    # cf. https://stackoverflow.com/a/3077316
+    RES=$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/nvm-sh/nvm/releases/latest)
+    # truncate the result using Bash parameter expansion by returning the shortest match after "*/"
+    # cf. https://stackoverflow.com/a/1371283 
+    # & https://www.gnu.org/software/bash/manual/html_node/Shell-Parameter-Expansion.html
+    NVM_UPSTREAM_VER=${RES##*/}
+    echo "The latest nvm version is $NVM_UPSTREAM_VER."
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/${NVM_UPSTREAM_VER}/install.sh | bash
+fi
 
 # yarn
-if $(test -d $HOME/.yarn); then
+if [ $(command -v node) ] && $(test -f $HOME/yarn.lock); then
+    if [ $(command -v yarn) ]; then
+        corepack enable
+    fi
     cd $HOME
     echo "updating yarn packages"
     yarn upgrade
     cd $CURR_DIR
 fi
+
+# npm
+if [ $(command -v npm) ]; then
+    # update npm itself
+    echo "updating npm" 
+    npm update -g npm
+    if test -f $HOME/package-lock.json; then
+        cd $HOME
+        echo "updating npm packages"
+	npm update
+	cd $CURR_DIR
+    fi
+ fi
+
