@@ -16,6 +16,9 @@
   - GNU guix (GNU guix system)
   - nixpkg (NixOS)
 
+- Not sure yet:
+  - Using `dnf distro-sync` in place of `dnf upgrade`
+
 # package managers handled
 - System package managers
   - apt
