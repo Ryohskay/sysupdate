@@ -161,6 +161,11 @@ function PACUP_ARCH() {
     # Clear pacman cache (removes fallback packages)
     echo -e "\nExecuting: $SUBEXEC paman -Sc"
     $SUBEXEC pacman -Sc
+    # Detect and update using aur package managers
+    if [ $(command -v yay) ]; then
+	echo -e "\nDetected an AUR package manager; executing: yay -Syuu"
+	yay -Syuu
+    fi
 }
 
 function PACUP_SYS() {
