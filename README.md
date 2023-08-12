@@ -1,15 +1,16 @@
 # pacup
 ***Simplify package updates***
-- Forked by Ryohskay to test on other platforms.
+- Forked by Ryohskay to make it work on other platforms.
 - This project was originally built for a Japanese Linux Distro **open.Yellow.os**.
 - My aim is to tune it for other operating systems I use.
-- Please note that messages are modified from original Japanese to English.
+- Please note that messages are modified from the original along with its translation from Japanese to English.
   - This may produce some disparities between messages / descriptions, but the author is not liable for it. (See [LICENSE](LICENSE))
 
 # TODO:
 - Work with following package managers (and representative OSs I (might) refer to):
   - apt-rpm (PCLinuxOS) [^1]
   - fwupd (Ubuntu, Fedora)
+  - pacman (Arch Linux)
 
 - Less likely to use, but I'm interested in:
   - GNU guix (GNU guix system)
@@ -24,6 +25,7 @@
   - pkg_* (OpenBSD, also `syspatch`)
   - pkgin (NetBSD)
   - slapt-get
+  - garuda-update (Garuda Linux)
 - Userland package managers
   - flatpak
   - snap

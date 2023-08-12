@@ -145,6 +145,10 @@ function PACUP_SLACK() {
     echo -e "\nDone cleaning packages."
 }
 
+function PACUP_GARUDA() {
+  $SUBEXEC garuda-update
+}
+
 function PACUP_SYS() {
   if [ $(command -v snap) ]; then
     echo -e "\nExecuting: sudo snap refresh"
@@ -183,6 +187,11 @@ elif [ $(command -v pkg) ]; then
 elif [ $(command -v slapt-get) ]; then
     echo -e "\nDetected Slackware's slapt-get"
     SYS_PKG="slapt-get"
+elif [ $(command -v garuda-update) ]; then
+    echo -e "\nDetected Garuda Linux system"
+    SYS_PKG="garuda"
+elif [ $(command -v pacman) ]; then
+    echo -e "\nDetected pacman package manager"
 else
     SYS_PKG="apt"
 fi
@@ -224,6 +233,8 @@ elif [ "$SYS_PKG" == "pkg" ]; then
   PACUP_PKG
 elif [ "$SYS_PKG" == "slapt-get" ]; then
   PACUP_SLACK
+elif [ "$SYS_PKG" == "garuda" ]; then
+  PACUP_GARUDA
 fi
 
 # exit if the user chose the native only option
